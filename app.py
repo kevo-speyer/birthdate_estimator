@@ -32,7 +32,14 @@ def handler(event, context):
 def parse_dnis(dnis):
     """Make different input formats compatible"""
 
-    dnis = dnis if isinstance(dnis, list) else [dnis]
+    def unnest_list(nested_list):
+        if isinstance(nested_list[0], list):
+            return unnest_list(nested_list[0])
+        return nested_list
+
+    print(f"raw dnis: {dnis}")
+    dnis = json.loads(f"[{str(dnis)}]")
+    dnis = unnest_list(dnis)
     dnis = [int(dni) for dni in dnis]
 
     return dnis
@@ -40,7 +47,7 @@ def parse_dnis(dnis):
 
 def read_query(event):
     """Normalize query string depending on source"""
-
+    print(f"raw query {event}")
     if "queryStringParameters" in event:  # Source: API Gateway
         query = event["queryStringParameters"]
     else:  # Direct Lambda call (Tests)
