@@ -7,6 +7,13 @@ DEFAULT_MODEL_INFO = {
     "path": "./models",
 }
 
+DEFAULT_S3_MODEL_INFO = {
+    "filename": "test_model.pickle",
+    "location": "s3",
+    "path": "prd",
+    "bucket": "dni-bdai-models",
+}
+
 
 def handler(event, context):
     """Lambda app entrypoint"""
@@ -14,7 +21,7 @@ def handler(event, context):
     # 1. Read inputs
     query = read_query(event)
     dnis = parse_dnis(query["dnis"])
-    model_info = query.get("model_info", DEFAULT_MODEL_INFO)
+    model_info = query.get("model_info", DEFAULT_S3_MODEL_INFO)
 
     # 2. Load model
     predictor = Predictor(model_info)

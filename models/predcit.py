@@ -3,6 +3,7 @@ import shutil
 import numpy as np
 import datetime as dt
 from pathlib import Path
+import boto3
 
 
 class Predictor:
@@ -34,6 +35,12 @@ class Predictor:
                 model_path = model_source.get("path", Path(__file__).parent.absolute())
                 src, dst = f"{model_path}/{filename}", f"/tmp/{filename}"
                 shutil.copyfile(src, dst)
+                model = pickle.load(open(f"/tmp/{filename}", "rb"))
+            if model_source.get("location") == "s3":
+                model_path = model_source["path"]
+                src, dst = f"{model_path}/{filename}", f"/tmp/{filename}"
+                s3 = boto3.client("s3")
+                s3.download_file(Bucket=model_source["bucket"], Key=src, Filename=dst)
                 model = pickle.load(open(f"/tmp/{filename}", "rb"))
 
         return model
