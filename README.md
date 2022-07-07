@@ -51,6 +51,11 @@ AWS Api Gateway
 Docker
 Python (sklearn, numpy)
 
+## TODO
+* config.yaml
+* train service
+* model versioning
+
 References:
 1: https://aws.amazon.com/blogs/machine-learning/deploy-multiple-machine-learning-models-for-inference-on-aws-lambda-and-amazon-efs/
 2: https://ianwhitestone.work/serverless-ml-deployments/
