@@ -1,4 +1,6 @@
 import json
+from pyexpat import model
+from statistics import mode
 from models.predcit import Predictor
 
 DEFAULT_MODEL_INFO = {
@@ -21,7 +23,7 @@ def handler(event, context):
     # 1. Read inputs
     query = read_query(event)
     dnis = parse_dnis(query["dnis"])
-    model_info = query.get("model_info", DEFAULT_S3_MODEL_INFO)
+    model_info = parse_model_info(query.get("model_info"))
 
     # 2. Load model
     predictor = Predictor(model_info)
@@ -35,6 +37,15 @@ def handler(event, context):
 
     return ret
 
+def parse_model_info(model_info):
+    if model_info is None:
+        return DEFAULT_MODEL_INFO
+    print(f"raw model_info {model_info}")
+    model_info = json.loads(json.dumps(model_info))
+    if isinstance(model_info, str):
+        model_info = json.loads(model_info.replace("'",'"'))
+    print(f"clean model_info {model_info}")
+    return model_info
 
 def parse_dnis(dnis):
     """Make different input formats compatible"""
@@ -48,7 +59,7 @@ def parse_dnis(dnis):
     dnis = json.loads(f"[{str(dnis)}]")
     dnis = unnest_list(dnis)
     dnis = [int(dni) for dni in dnis]
-
+    print(f"clean dnis: {dnis}")
     return dnis
 
 

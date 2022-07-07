@@ -28,8 +28,12 @@ region=us-east-1
 
 ### Request API
 ```
-api_url="https://arx6ju40h3.execute-api.us-east-1.amazonaws.com"
-curl -XGET ${api_url}?dnis=33023577
+api_url="https://arx6ju40h3.execute-api.us-east-1.amazonaws.com/default/dni-bday-backend"
+curl -G -XPOST $api_url -d "dnis=[99000000,33023562]" -d "model_info={'filename':'model_date_by_dni.pickle','location':'filesystem','path':'./models'}"
+```
+or use model from bucket:
+```
+curl -G -XPOST $api_url -d "dnis=[99000000,33023562]" -d "model_info={'filename':'default_model.pickle','location':'s3','path':'prd','bucket':'dni-bdai-models'}"
 ```
 
 # Development Workflow
