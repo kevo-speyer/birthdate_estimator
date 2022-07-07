@@ -1,6 +1,4 @@
 import json
-from pyexpat import model
-from statistics import mode
 from models.predcit import Predictor
 
 DEFAULT_MODEL_INFO = {
