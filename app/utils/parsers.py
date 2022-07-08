@@ -1,23 +1,14 @@
 import json
-
-DEFAULT_MODEL_INFO = {
-    "filename": "bspline_model_date_by_dni.pickle",
-    "location": "filesystem",
-    "path": "./models",
-}
-
-DEFAULT_S3_MODEL_INFO = {
-    "filename": "test_model.pickle",
-    "location": "s3",
-    "path": "prd",
-    "bucket": "dni-bdai-models",
-}
+import os
+import sys
+sys.path.append(os.path.abspath('..'))
+import config
 
 def parse_model_info(model_info):
     """Make different model_info input formats compatible"""
 
     if model_info is None:
-        return DEFAULT_MODEL_INFO
+        return config.DEFAULT_MODEL_INFO
 
     print(f"raw model_info {model_info}")
     model_info = json.loads(json.dumps(model_info))
