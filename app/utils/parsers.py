@@ -1,5 +1,4 @@
 import json
-from models.predcit import Predictor
 
 DEFAULT_MODEL_INFO = {
     "filename": "bspline_model_date_by_dni.pickle",
@@ -14,39 +13,22 @@ DEFAULT_S3_MODEL_INFO = {
     "bucket": "dni-bdai-models",
 }
 
-
-def handler(event, context):
-    """Lambda app entrypoint"""
-
-    # 1. Read inputs
-    query = read_query(event)
-    dnis = parse_dnis(query["dnis"])
-    model_info = parse_model_info(query.get("model_info"))
-
-    # 2. Load model
-    predictor = Predictor(model_info)
-
-    # 3. Estimate with model
-    estimated_birthdates = predictor.predict(dnis)
-
-    # 4. Return predictions
-    body = f"Estimated birthdates: {dict(zip(dnis, estimated_birthdates))}"
-    ret = {"statusCode": 200, "body": json.dumps(body)}
-
-    return ret
-
 def parse_model_info(model_info):
+    """Make different model_info input formats compatible"""
+
     if model_info is None:
         return DEFAULT_MODEL_INFO
+
     print(f"raw model_info {model_info}")
     model_info = json.loads(json.dumps(model_info))
     if isinstance(model_info, str):
         model_info = json.loads(model_info.replace("'",'"'))
     print(f"clean model_info {model_info}")
+
     return model_info
 
 def parse_dnis(dnis):
-    """Make different input formats compatible"""
+    """Make different dni input formats compatible"""
 
     def unnest_list(nested_list):
         if isinstance(nested_list[0], list):
@@ -59,7 +41,6 @@ def parse_dnis(dnis):
     dnis = [int(dni) for dni in dnis]
     print(f"clean dnis: {dnis}")
     return dnis
-
 
 def read_query(event):
     """Normalize query string depending on source"""

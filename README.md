@@ -42,7 +42,12 @@ curl -G -XPOST $api_url -d "dnis=[99000000,33023562]" -d "model_info={'filename'
 `docker run -p 9000:8080  ${ecr_name}:latest`
 
 ## Local Lambdas trigger
-`curl -XGET "http://localhost:9000/2015-03-31/functions/function/invocations" -d '{"dnis":"35167045"}'`
+```
+local_api_url="http://localhost:9000/2015-03-31/functions/function/invocations"
+curl -XGET $local_api_url -d '{"dnis":"35167045"}'
+```
+or
+`curl -XGET $local_api_url -d '{"dnis":[35167045],"model_info":{"filename":"model_date_by_dni.pickle","location":"filesystem","path":"./models"}}'`
 
 ### Tech Stack:
 AWS Lambda
