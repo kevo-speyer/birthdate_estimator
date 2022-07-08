@@ -57,7 +57,7 @@ Docker
 Python (sklearn, numpy)
 
 ## TODO
-* config.yaml
+* add .env for config
 * train service
 * model versioning
 
