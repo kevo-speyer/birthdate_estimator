@@ -1,7 +1,4 @@
 import json
-import os
-import sys
-sys.path.append(os.path.abspath('..'))
 import config
 
 def parse_model_info(model_info):
