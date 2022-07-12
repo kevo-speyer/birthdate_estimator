@@ -1,15 +1,15 @@
 import json
 from models.predcit import Predictor
-from utils.parsers import read_query, parse_dnis, parse_model_info
+from utils import parsers
 
 
 def handler(event, context):
     """Lambda app entrypoint"""
 
     # 1. Read inputs
-    query = read_query(event)
-    dnis = parse_dnis(query["dnis"])
-    model_info = parse_model_info(query.get("model_info"))
+    query = parsers.read_query(event)
+    dnis = parsers.parse_dnis(query["dnis"])
+    model_info = parsers.parse_model_info(query.get("model_info"))
 
     # 2. Load model
     predictor = Predictor(model_info)

@@ -1,21 +1,19 @@
 import json
-from config import config
-import os
+from utils import variant_handler
 
 
 def parse_model_info(model_info):
     """Make different model_info input formats compatible"""
 
-    env = os.getenv("ENV", "DEV")
-    print(f"Environment: {env}")
+    if model_info is None:  # Select model from config
+        return variant_handler.select_model()
 
-    if model_info is None:
-        return config[env]["default_model_info"]
+    print(f"request model_info {model_info}")
 
-    print(f"raw model_info {model_info}")
     model_info = json.loads(json.dumps(model_info))
     if isinstance(model_info, str):
         model_info = json.loads(model_info.replace("'", '"'))
+
     print(f"clean model_info {model_info}")
 
     return model_info

@@ -59,7 +59,6 @@ Docker
 Python (sklearn, numpy)
 
 ## TODO
-* Variants for A/B testing
 * train service
 * ETL service
 

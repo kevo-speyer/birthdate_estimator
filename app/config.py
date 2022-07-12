@@ -1,10 +1,19 @@
 config = {
     "DEV": {
-        "default_model_info": {
-            "filename": "bspline_model_date_by_dni.pickle",
-            "location": "filesystem",
-            "path": "./models",
-        },
+        "default_model_info": [  # each dict is a model variant to do A/B testing
+            {
+                "filename": "bsplines.pickle",
+                "location": "filesystem",
+                "path": "./models",
+                "proba": 2,  # variant probability
+            },
+            {
+                "filename": "linear.pickle",
+                "location": "filesystem",
+                "path": "./models",
+                "proba": 1,
+            },
+        ]
     },
     "PRD": {
         "default_model_info": {
