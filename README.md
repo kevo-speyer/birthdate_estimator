@@ -47,7 +47,9 @@ local_api_url="http://localhost:9000/2015-03-31/functions/function/invocations"
 curl -XGET $local_api_url -d '{"dnis":"35167045"}'
 ```
 or
-`curl -XGET $local_api_url -d '{"dnis":[35167045],"model_info":{"filename":"model_date_by_dni.pickle","location":"filesystem","path":"./models"}}'`
+```
+curl -XGET $local_api_url -d '{"dnis":[35167045],"model_info":{"filename":"model_date_by_dni.pickle","location":"filesystem","path":"./models"}}'
+```
 
 ### Tech Stack:
 AWS Lambda
@@ -57,9 +59,9 @@ Docker
 Python (sklearn, numpy)
 
 ## TODO
-* add .env for config
+* Variants for A/B testing
 * train service
-* model versioning
+* ETL service
 
 References:
 1: https://aws.amazon.com/blogs/machine-learning/deploy-multiple-machine-learning-models-for-inference-on-aws-lambda-and-amazon-efs/

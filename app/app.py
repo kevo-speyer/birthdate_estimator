@@ -1,6 +1,6 @@
 import json
 from models.predcit import Predictor
-from utils.parsers import read_query, parse_dnis, parse_model_info 
+from utils.parsers import read_query, parse_dnis, parse_model_info
 
 
 def handler(event, context):
