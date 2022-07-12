@@ -12,7 +12,7 @@ def select_model():
     models = config[env]["default_model_info"]
     models = models if isinstance(models, list) else [models]
 
-    if len(models) == 0:  # Only one variant
+    if len(models) == 1:  # Only one variant
         return models[0]
 
     # At this point models is a list with dict models with key "proba"

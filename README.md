@@ -59,8 +59,10 @@ Docker
 Python (sklearn, numpy)
 
 ## TODO
-* train service
+* Train service
 * ETL service
+* Unit Tests
+* Auto Deploy with EventBridge
 
 References:
 1: https://aws.amazon.com/blogs/machine-learning/deploy-multiple-machine-learning-models-for-inference-on-aws-lambda-and-amazon-efs/
