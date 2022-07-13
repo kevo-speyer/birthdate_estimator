@@ -29,9 +29,9 @@ region=us-east-1
 ### Request API
 ```
 api_url="https://arx6ju40h3.execute-api.us-east-1.amazonaws.com/default/dni-bday-backend"
-curl -G -XPOST $api_url -d "dnis=[99000000,33023562]" -d "model_info={'filename':'model_date_by_dni.pickle','location':'filesystem','path':'./models'}"
+curl -G -XPOST $api_url -d "dnis=[99000000,33023562]" 
 ```
-or use model from bucket:
+or select a custom model from a s3 bucket:
 ```
 curl -G -XPOST $api_url -d "dnis=[99000000,33023562]" -d "model_info={'filename':'default_model.pickle','location':'s3','path':'prd','bucket':'dni-bdai-models'}"
 ```
@@ -39,16 +39,24 @@ curl -G -XPOST $api_url -d "dnis=[99000000,33023562]" -d "model_info={'filename'
 # Development Workflow
 
 ## Local Lambdas Deploy
-`docker run -p 9000:8080  ${ecr_name}:latest`
+Set credentials to use AWS inside docket locally (Assuming credentials are in ~/.aws/)
+```
+AWS_SECRET_ACCESS_KEY=$(awk -F"=" '/aws_secret_access_key/{print $2}' ~/.aws/credentials | sed 's/ //g')
+AWS_ACCESS_KEY_ID=$(awk -F"=" '/aws_access_key_id/{print $2}' ~/.aws/credentials | sed 's/ //g')
+```
+Deploy aws lambdas locally passing env variables
+```
+docker run -p 9000:8080 -e AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY ${ecr_name}:latest
+```
 
 ## Local Lambdas trigger
 ```
 local_api_url="http://localhost:9000/2015-03-31/functions/function/invocations"
 curl -XGET $local_api_url -d '{"dnis":"35167045"}'
 ```
-or
+or select a model deployed inside docker image
 ```
-curl -XGET $local_api_url -d '{"dnis":[35167045],"model_info":{"filename":"model_date_by_dni.pickle","location":"filesystem","path":"./models"}}'
+curl -XGET $local_api_url -d '{"dnis":[35167045],"model_info":{"filename":"bsplines.pickle","location":"filesystem","path":"./models"}}'
 ```
 
 ### Tech Stack:

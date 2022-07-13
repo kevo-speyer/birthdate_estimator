@@ -37,6 +37,7 @@ class Predictor:
                 shutil.copyfile(src, dst)
                 model = pickle.load(open(f"/tmp/{filename}", "rb"))
             if model_source.get("location") == "s3":
+                print("Getting model from s3 bucket")
                 model_path = model_source["path"]
                 src, dst = f"{model_path}/{filename}", f"/tmp/{filename}"
                 s3 = boto3.client("s3")
