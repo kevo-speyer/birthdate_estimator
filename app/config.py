@@ -18,7 +18,7 @@ config = {
     },
     "PRD": {
         "default_model_info": {
-            "filename": "bsplines.pickle",
+            "filename": "mega_spline_model.pickle",
             "location": "s3",
             "path": "prd",
             "bucket": "dni-bdai-models",
